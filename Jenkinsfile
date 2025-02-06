@@ -25,7 +25,7 @@ pipeline {
        }
        stage('Docker login') {
             steps { 
-                withCredentials([usernamePassword(credentialsId: 'ssa-docker-ID', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                withCredentials([usernamePassword(credentialsId: 'ssa-docker-ID', passwordVariable: 'docker-hub-token', usernameVariable: 'USER')]) {
                 sh "echo $PASS | docker login -u $USER --password-stdin"
                 sh 'docker push sikk2003/dev:latest'
                 }
