@@ -20,21 +20,21 @@ pipeline {
        stage('Build Image') {
             steps { 
                 sh 'docker build -t reactimage .'
-                sh 'docker tag reactimage:latest indumathicloud001/dev:latest'
+                sh 'docker tag reactimage:latest sikk2003/dev:latest'
             }    
        }
        stage('Docker login') {
             steps { 
                 withCredentials([usernamePassword(credentialsId: 'ssa-docker-ID', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                 sh "echo $PASS | docker login -u $USER --password-stdin"
-                sh 'docker push indumathicloud001/dev:latest'
+                sh 'docker push sikk2003/dev:latest'
                 }
             }
        }
        stage('Deploy') {
             steps {  
                 script {
-                   def dockerCmd = 'docker run -itd --name My-first-container -p 80:5000 indumathicloud001/dev:latest'
+                   def dockerCmd = 'docker run -itd --name My-first-container -p 80:5000 sikk2003/dev:latest'
                    sshagent(['ssa-aws-ubuntu']) {
                    sh "ssh -o StrictHostKeyChecking=no ubuntu@52.207.216.239 ${dockerCmd}"
                    }
