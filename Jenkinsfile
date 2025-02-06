@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                checkout scmGit(branches: [[name: '*/Dev']], extensions: [], userRemoteConfigs: [[credentialsId: 'Github', url: 'https://github.com/Induprojects/Capstone-Project.git']])
+                checkout scmGit(branches: [[name: '*/Dev']], extensions: [], userRemoteConfigs: [[credentialsId: 'ssa-git-jenkins', url: 'https://github.com/sikk2003/CICD-1.git']])
                 sh 'npm install'
                 // sh 'npm run build'
             }
@@ -25,7 +25,7 @@ pipeline {
        }
        stage('Docker login') {
             steps { 
-                withCredentials([usernamePassword(credentialsId: 'Dockercred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                withCredentials([usernamePassword(credentialsId: 'ssa-docker-ID', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                 sh "echo $PASS | docker login -u $USER --password-stdin"
                 sh 'docker push indumathicloud001/dev:latest'
                 }
@@ -35,8 +35,8 @@ pipeline {
             steps {  
                 script {
                    def dockerCmd = 'docker run -itd --name My-first-container -p 80:5000 indumathicloud001/dev:latest'
-                   sshagent(['sshkeypair']) {
-                   sh "ssh -o StrictHostKeyChecking=no ubuntu@54.86.64.88 ${dockerCmd}"
+                   sshagent(['ssa-aws-ubuntu']) {
+                   sh "ssh -o StrictHostKeyChecking=no ubuntu@52.207.216.239 ${dockerCmd}"
                    }
                 }
             }
