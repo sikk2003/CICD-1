@@ -36,7 +36,7 @@ pipeline {
                 script {
                    def dockerCmd = 'docker run -itd --name My-first-container -p 80:5000 sikk2003/dev:latest'
                    sshagent(['ssa-aws-ubuntu']) {
-                   sh "ssh -o StrictHostKeyChecking=no ubuntu@52.207.216.239 ${dockerCmd}"
+                   sh "ssh -o StrictHostKeyChecking=no ubuntu@3.83.175.91 ${dockerCmd}"
                    }
                 }
             }
